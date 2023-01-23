@@ -1,6 +1,6 @@
 # 🎬 recoil-movie-app
 
-## 🔮 recoil 사용
+## 🔮 recoil 사용기
 
 ### 1️⃣ 사용 이유
 
@@ -62,9 +62,13 @@ export const getMovieListState = selector({
 또한, recoil은 별도의 비동기 라이브러리가 필요하지 않고, selector로 비동기를 간편하게 처리할 수 있다.
 이 때, atom 값이 변하지 않는 경우 캐싱된 값을 리턴한다.
 
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/76807107/214076513-fc0dd594-31bd-468e-9e61-6e5f331d24dd.gif)
+
+처음 frozen과 game을 검색했을 때만 API가 호출되고 이후에 검색한 frozen과 game은 캐싱된 값을 리턴함을 알 수 있다.
+
 <br />
 
-## 💀 skeleton 사용
+## 💀 skeleton 사용기
 
 일부 이미지가 로드되기까지 시간이 꽤나 걸렸다.
 웹 사용성을 높이고자 이미지가 로드되기 전까지는 스켈레톤 컴포넌트를 보이도록 개선해보았다.
