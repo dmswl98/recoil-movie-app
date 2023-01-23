@@ -1,9 +1,9 @@
-import "./Spinner.module.css";
+import classes from "./Spinner.module.css";
 
 const Spinner = () => {
   return (
-    <div class="spinner">
-      <div class="lds-ellipsis">
+    <div className={classes.spinner}>
+      <div className={classes["lds-ellipsis"]}>
         <div></div>
         <div></div>
         <div></div>
