@@ -11,7 +11,125 @@ import {
 } from "../store/recoil-state";
 
 import Modal from "./Modal";
-import classes from "./MovieInfoModal.module.css";
+import Star from "./Star";
+
+import styled from "styled-components";
+
+const ModalInner = styled.div`
+  width: 900px;
+  max-height: 500px;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  border: 0;
+  color: #22272e;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const MoviePoster = styled.div`
+  width: 340px;
+  height: 500px;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const MovieContent = styled.div`
+  color: #22272e;
+  width: 560px;
+  padding: 65px 25px;
+  font-weight: 400;
+  font-size: 15px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const Title = styled.div`
+  max-width: 400px;
+  font-weight: 700;
+  font-size: 36px;
+  margin-bottom: 2px;
+`;
+
+const Rating = styled.div`
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin: 4px 0;
+
+  svg {
+    margin-right: 4px;
+  }
+`;
+
+const RatingRatio = styled.span`
+  font-size: 20px;
+  font-weight: 700;
+`;
+
+const Description = styled.div`
+  span::after {
+    content: "・";
+  }
+
+  span:last-child::after {
+    display: none;
+  }
+`;
+
+const GenreList = styled.ul`
+  display: flex;
+  margin: 4px 0;
+`;
+
+const GenreItem = styled.li`
+  background-color: #ccc;
+  margin-right: 4px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 700;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+const Credits = styled.div`
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 6px;
+`;
+
+const Plot = styled.div`
+  overflow-y: auto;
+  margin: 18px 0;
+`;
 
 const MovieDetail = () => {
   const selectedMovieId = useRecoilValue(selectedMovieIdState);
@@ -28,82 +146,57 @@ const MovieDetail = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(contents);
-
   const closeModalHandler = () => {
     setIsShowModal(false);
   };
 
   return (
     <Modal>
-      <div className={classes["modal__inner"]}>
-        <button className={classes["btn-close"]} onClick={closeModalHandler}>
-          ×
-        </button>
-        <div className={classes["movie-image"]}>
+      <ModalInner>
+        <CloseButton onClick={closeModalHandler}>×</CloseButton>
+        <MoviePoster>
           <img src={contents.posterImg} alt="movie poster" />
-        </div>
-        <div className={classes["movie-content"]}>
-          <div>{contents.title}</div>
-          <div>{contents.type}</div>
-          <div>{contents.actors}</div>
-          <div>{contents.genre}</div>
-          <div>{contents.plot}</div>
-          {/* <header>
-        <div class="title">
-          {{ selectedMovieInfo.title }} 
-        </div>
-        <div
-          v-if="selectedMovieInfo.rating"
-          class="rating">
-          <Star />
-          <div><span class="rating-ratio">{{ selectedMovieInfo.rating }}</span> / 10</div>
-        </div>
-      </header>
-      <main>
-        <div class="description">
-          <span v-if="selectedMovieInfo.country">{{ selectedMovieInfo.country }}</span>
-          <span v-if="selectedMovieInfo.year">{{ selectedMovieInfo.year }}</span>
-          <span v-if="selectedMovieInfo.type">{{ selectedMovieInfo.type }}</span>
-          <span v-if="selectedMovieInfo.runtime">{{ selectedMovieInfo.runtime }}</span>
-        </div>
-        <div class="genre">
-          <ul class="genre-list">
-            <li
-              v-for="(genre, idx) in selectedMovieInfo.genre"
-              :key="idx"
-              class="genre-item badge">
-              {{ genre }}
-            </li>
-          </ul>
-        </div>
-        <div
-          v-if="selectedMovieInfo.rated"
-          class="rated badge">
-          {{ selectedMovieInfo.rated }}
-        </div>
-        <div class="credits">
-          <div v-if="selectedMovieInfo.actors">
-            <span class="label">Actors</span>
-            <span>
-              {{ selectedMovieInfo.actors }} 
-            </span>
-          </div>
-          <div v-if="selectedMovieInfo.director">
-            <span class="label">Director</span>
-            <span>
-              {{ selectedMovieInfo.director }}
-            </span>
-          </div>
-        </div>
-        <div
-          v-if="selectedMovieInfo.plot"
-          class="plot">
-          {{ selectedMovieInfo.plot }}
-        </div>
-      </main> */}
-        </div>
-      </div>
+        </MoviePoster>
+        <MovieContent>
+          <header>
+            <Title>{contents.title}</Title>
+            <Rating>
+              <Star />
+              <div>
+                <RatingRatio>{contents.rating}</RatingRatio> / 10
+              </div>
+            </Rating>
+          </header>
+          <main>
+            <Description>
+              <span>{contents.country}</span>
+              <span>{contents.year}</span>
+              <span>{contents.type}</span>
+              <span>{contents.runtime}</span>
+            </Description>
+            <GenreList>
+              {contents.genre.map((genreItem, idx) => (
+                <GenreItem key={idx}>{genreItem}</GenreItem>
+              ))}
+            </GenreList>
+            <Credits>
+              {contents.actors && (
+                <div>
+                  <Label>Actors</Label>
+                  <span>{contents.actors}</span>
+                </div>
+              )}
+              {contents.director && (
+                <div>
+                  <Label>Director</Label>
+                  <span>{contents.director}</span>
+                </div>
+              )}
+            </Credits>
+            <Plot>{contents.plot}</Plot>
+          </main>
+        </MovieContent>
+      </ModalInner>
     </Modal>
   );
 };
