@@ -1,33 +1,40 @@
-import classes from "./SearchResult.module.css";
+import { useRecoilValueLoadable } from "recoil";
+import { getMovieListState } from "../store/recoil-state";
 
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { getMovieList } from "../store/recoil-state";
 import MovieItem from "./MovieItem";
+import Spinner from "./Spinner";
+
+import styled from "styled-components";
+
+const MovieList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  margin: 50px 0;
+`;
 
 const SearchResult = () => {
-  const { state, contents } = useRecoilValueLoadable(getMovieList);
-  console.log(contents);
+  const { state, contents } = useRecoilValueLoadable(getMovieListState);
 
   if (state === "hasError") {
     return <div>Error : {contents.message}</div>;
   }
 
   if (state === "loading") {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (
     <div>
       {contents && (
-        <ul className={classes["movie-list"]}>
+        <MovieList>
           {contents.map((movie) => (
             <MovieItem key={movie.imdbID} data={movie} />
           ))}
-        </ul>
+        </MovieList>
       )}
     </div>
   );
 };
 
 export default SearchResult;
-// https://codesandbox.io/s/unruffled-kare-jdhjf?from-embed=&file=/src/App.js
