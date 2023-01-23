@@ -5,7 +5,7 @@ const Star = () => {
       xmlns="http://www.w3.org/2000/svg"
       width="28"
       height="28"
-      class="ipc-icon ipc-icon--star sc-7ab21ed2-4 hLFdut"
+      className="ipc-icon ipc-icon--star sc-7ab21ed2-4 hLFdut"
       viewBox="0 0 24 24"
       fill="rgb(245, 197, 24)"
       role="presentation"
