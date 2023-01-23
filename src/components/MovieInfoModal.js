@@ -6,7 +6,7 @@ import {
 } from "recoil";
 import {
   isShowModalState,
-  getMovieItemInfo,
+  getMovieItemInfoState,
   selectedMovieIdState,
 } from "../store/recoil-state";
 
@@ -124,7 +124,7 @@ const MovieDetail = () => {
   const selectedMovieId = useRecoilValue(selectedMovieIdState);
   const setIsShowModal = useSetRecoilState(isShowModalState);
   const { state, contents } = useRecoilValueLoadable(
-    getMovieItemInfo(selectedMovieId)
+    getMovieItemInfoState(selectedMovieId)
   );
 
   if (state === "hasError") {
