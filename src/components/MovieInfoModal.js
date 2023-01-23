@@ -15,17 +15,6 @@ import Star from "./Star";
 
 import styled from "styled-components";
 
-const ModalInner = styled.div`
-  width: 900px;
-  max-height: 500px;
-  display: flex;
-  background-color: #fff;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
 const CloseButton = styled.button`
   position: absolute;
   top: 10px;
@@ -151,52 +140,50 @@ const MovieDetail = () => {
   };
 
   return (
-    <Modal>
-      <ModalInner>
-        <CloseButton onClick={closeModalHandler}>×</CloseButton>
-        <MoviePoster>
-          <img src={contents.posterImg} alt="movie poster" />
-        </MoviePoster>
-        <MovieContent>
-          <header>
-            <Title>{contents.title}</Title>
-            <Rating>
-              <Star />
+    <Modal onClose={closeModalHandler} width={900} height={500}>
+      <CloseButton onClick={closeModalHandler}>×</CloseButton>
+      <MoviePoster>
+        <img src={contents.posterImg} alt="movie poster" />
+      </MoviePoster>
+      <MovieContent>
+        <header>
+          <Title>{contents.title}</Title>
+          <Rating>
+            <Star />
+            <div>
+              <RatingRatio>{contents.rating}</RatingRatio> / 10
+            </div>
+          </Rating>
+        </header>
+        <main>
+          <Description>
+            <span>{contents.country}</span>
+            <span>{contents.year}</span>
+            <span>{contents.type}</span>
+            <span>{contents.runtime}</span>
+          </Description>
+          <GenreList>
+            {contents.genre.map((genreItem, idx) => (
+              <GenreItem key={idx}>{genreItem}</GenreItem>
+            ))}
+          </GenreList>
+          <Credits>
+            {contents.actors && (
               <div>
-                <RatingRatio>{contents.rating}</RatingRatio> / 10
+                <Label>Actors</Label>
+                <span>{contents.actors}</span>
               </div>
-            </Rating>
-          </header>
-          <main>
-            <Description>
-              <span>{contents.country}</span>
-              <span>{contents.year}</span>
-              <span>{contents.type}</span>
-              <span>{contents.runtime}</span>
-            </Description>
-            <GenreList>
-              {contents.genre.map((genreItem, idx) => (
-                <GenreItem key={idx}>{genreItem}</GenreItem>
-              ))}
-            </GenreList>
-            <Credits>
-              {contents.actors && (
-                <div>
-                  <Label>Actors</Label>
-                  <span>{contents.actors}</span>
-                </div>
-              )}
-              {contents.director && (
-                <div>
-                  <Label>Director</Label>
-                  <span>{contents.director}</span>
-                </div>
-              )}
-            </Credits>
-            <Plot>{contents.plot}</Plot>
-          </main>
-        </MovieContent>
-      </ModalInner>
+            )}
+            {contents.director && (
+              <div>
+                <Label>Director</Label>
+                <span>{contents.director}</span>
+              </div>
+            )}
+          </Credits>
+          <Plot>{contents.plot}</Plot>
+        </main>
+      </MovieContent>
     </Modal>
   );
 };
